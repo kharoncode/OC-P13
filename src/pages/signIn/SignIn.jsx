@@ -1,4 +1,5 @@
 import userCircle from '@assets/circle-user-solid.svg';
+import { Link } from 'react-router-dom';
 
 function SignIn() {
    return (
@@ -20,6 +21,7 @@ function SignIn() {
                   <label htmlFor="remember-me">Remember me</label>
                </div>
                <button className="sign-in-button">Sign In</button>
+               <Link to={'/user'}>Test</Link>
             </form>
          </section>
       </main>
