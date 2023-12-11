@@ -1,7 +1,24 @@
 import userCircle from '@assets/circle-user-solid.svg';
 import { Link } from 'react-router-dom';
+import CallApi from '../../utils/CallApi';
+import GetProfile from '../../utils/GetProfile';
 
 function Login() {
+   const user = {
+      tony: {
+         email: 'tony@stark.com',
+         password: 'password123',
+      },
+      steve: {
+         email: 'steve@rogers.com',
+         password: 'password456',
+      },
+   };
+   const result = CallApi(user.steve);
+   if (result?.body) {
+      console.log(result);
+   }
+   console.log(GetProfile(result?.body));
    return (
       <main className="main bg-dark">
          <section className="sign-in-content">
