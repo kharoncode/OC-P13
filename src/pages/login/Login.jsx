@@ -2,8 +2,11 @@ import userCircle from '@assets/circle-user-solid.svg';
 import { Link } from 'react-router-dom';
 import CallApi from '../../utils/CallApi';
 import GetProfile from '../../utils/GetProfile';
+import { useDispatch, useStore } from 'react-redux';
+import { fetchToken } from './loginSlice';
 
 function Login() {
+   const store = useStore();
    const user = {
       tony: {
          email: 'tony@stark.com',
@@ -14,17 +17,29 @@ function Login() {
          password: 'password456',
       },
    };
-   const result = CallApi(user.steve);
-   if (result?.body) {
-      console.log(result);
-   }
-   console.log(GetProfile(result?.body));
+   const dispatch = useDispatch();
+   // const result = CallApi(user.steve);
+   // if (result?.body) {
+   //    console.log(result);
+   // }
+   // console.log(GetProfile(result?.body));
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      const userName = e.currentTarget.username.value;
+      const password = e.currentTarget.password.value;
+      const token =
+         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzZmYTRmMzliODc5OGY3NDFmYTMyMyIsImlhdCI6MTcwMjM4OTc5MSwiZXhwIjoxNzAyNDc2MTkxfQ.A_cv1JkDQ8KMxhPIuUMwv03CgbL6WISbDQBN0P4cbbw';
+      dispatch(fetchToken({ email: userName, password: password }));
+      console.log(store.getState().login.token);
+   };
+
    return (
       <main className="main bg-dark">
          <section className="sign-in-content">
             <img src={userCircle} alt="user" />
             <h1>Sign In</h1>
-            <form>
+            <form onSubmit={(e) => handleSubmit(e)}>
                <div className="input-wrapper">
                   <label htmlFor="username">Username</label>
                   <input type="text" id="username" />

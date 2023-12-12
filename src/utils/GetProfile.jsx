@@ -4,7 +4,7 @@ function GetProfile(body) {
    const [data, setData] = useState({});
 
    async function postJSON(body) {
-      const token = body?.token;
+      const token = body;
       try {
          const response = await fetch(
             'http://localhost:3001/api/v1/user/profile',

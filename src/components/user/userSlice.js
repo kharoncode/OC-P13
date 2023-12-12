@@ -12,5 +12,9 @@ export const userSlice = createSlice({
          };
          return user;
       },
+      addProfile: (currentState, action) => {
+         const user = { ...currentState, ...action.payload };
+         return user;
+      },
    },
 });

@@ -1,7 +1,15 @@
 import Account from '@components/account/Account';
 import User from '@components/user/User';
+//import { useGetLoginApi } from '../../services/testApi';
+import { useDispatch, useStore } from 'react-redux';
+import { fetchProfile } from './profileSlide';
 
 function Profile() {
+   const store = useStore();
+   const dispatch = useDispatch();
+   const token = store.getState().login.token;
+   dispatch(fetchProfile(token));
+   console.log(store.getState().profile?.loading);
    const mockedData = {
       user: {
          email: 'steve@rogers.com',
