@@ -1,4 +1,5 @@
 import Account from '@components/account/Account';
+import User from '@components/user/User';
 
 function Profile() {
    const mockedData = {
@@ -31,17 +32,10 @@ function Profile() {
 
    return (
       <main className="main bg-dark">
-         <div className="header">
-            <h1>
-               Welcome back
-               <br />
-               {mockedData.user.firstName} {mockedData.user.lastName}!
-            </h1>
-            <button className="edit-button">Edit Name</button>
-         </div>
+         <User />
          <h2 className="sr-only">Accounts</h2>
          {mockedData.account.map((el, index) => (
-            <Account data={el} key={index} />
+            <Account data={el} key={`${mockedData.user.lastName}-${index}`} />
          ))}
       </main>
    );
