@@ -1,15 +1,17 @@
 import Account from '@components/account/Account';
 import User from '@components/user/User';
-//import { useGetLoginApi } from '../../services/testApi';
 import { useDispatch, useStore } from 'react-redux';
-import { fetchProfile } from './profileSlide';
+import { fetchProfile } from './profileSlice';
 
 function Profile() {
    const store = useStore();
-   const dispatch = useDispatch();
-   const token = store.getState().login.token;
-   dispatch(fetchProfile(token));
-   console.log(store.getState().profile?.loading);
+   // const dispatch = useDispatch();
+   // const isloading = store.getState().login?.loading;
+   // if (!isloading) {
+   //    const token = store.getState().login.token;
+   //    dispatch(fetchProfile(token));
+   // }
+   const profile = store.getState().profile.body;
    const mockedData = {
       user: {
          email: 'steve@rogers.com',
@@ -43,7 +45,7 @@ function Profile() {
          <User />
          <h2 className="sr-only">Accounts</h2>
          {mockedData.account.map((el, index) => (
-            <Account data={el} key={`${mockedData.user.lastName}-${index}`} />
+            <Account data={el} key={`${profile.lastName}-${index}`} />
          ))}
       </main>
    );

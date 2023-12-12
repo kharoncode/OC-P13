@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const fetchToken = createAsyncThunk('login/fetchToken', async (data) => {
    return fetch('http://localhost:3001/api/v1/user/login', {
-      method: 'POST', // or 'PUT'
+      method: 'POST',
       headers: {
          'Content-Type': 'application/json',
       },
@@ -34,13 +34,4 @@ export const loginSlice = createSlice({
          };
       });
    },
-   // reducers: {
-   //    addToken: (currentState, action) => {
-   //       const token = { ...currentState, token: action.payload };
-   //       return token;
-   //    },
-   //    logOut: (currentState, action) => {
-   //       return { ...currentState, token: null };
-   //    },
-   // },
 });

@@ -1,38 +1,32 @@
 import userCircle from '@assets/circle-user-solid.svg';
-import { Link } from 'react-router-dom';
-import CallApi from '../../utils/CallApi';
-import GetProfile from '../../utils/GetProfile';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useStore } from 'react-redux';
 import { fetchToken } from './loginSlice';
+import { useEffect, useState } from 'react';
+import { fetchProfile } from '../profile/profileSlice';
 
 function Login() {
-   const store = useStore();
-   const user = {
-      tony: {
-         email: 'tony@stark.com',
-         password: 'password123',
-      },
-      steve: {
-         email: 'steve@rogers.com',
-         password: 'password456',
-      },
-   };
    const dispatch = useDispatch();
-   // const result = CallApi(user.steve);
-   // if (result?.body) {
-   //    console.log(result);
-   // }
-   // console.log(GetProfile(result?.body));
+   const navigate = useNavigate();
+   const store = useStore();
+   const [isloading, setLoading] = useState(true);
 
    const handleSubmit = (e) => {
       e.preventDefault();
       const userName = e.currentTarget.username.value;
       const password = e.currentTarget.password.value;
-      const token =
-         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzZmYTRmMzliODc5OGY3NDFmYTMyMyIsImlhdCI6MTcwMjM4OTc5MSwiZXhwIjoxNzAyNDc2MTkxfQ.A_cv1JkDQ8KMxhPIuUMwv03CgbL6WISbDQBN0P4cbbw';
       dispatch(fetchToken({ email: userName, password: password }));
-      console.log(store.getState().login.token);
    };
+
+   useEffect(() => {
+      store.subscribe(() => setLoading(store.getState().login.loading));
+   });
+
+   if (!isloading) {
+      const token = store.getState().login.token;
+      dispatch(fetchProfile(token));
+      navigate('/profile');
+   }
 
    return (
       <main className="main bg-dark">
