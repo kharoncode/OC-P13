@@ -2,15 +2,14 @@ import userCircle from '@assets/circle-user-solid.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { fetchToken } from './loginSlice';
-import { useEffect, useState } from 'react';
-import { fetchProfile } from '../profile/profileSlice';
+import { getLogin } from '../../router/selectors';
 
 function Login() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const store = useStore();
 
-   const { loading, error } = useSelector((state) => state.login);
+   const { loading, error } = useSelector(getLogin);
 
    const handleSubmit = (e) => {
       e.preventDefault();
