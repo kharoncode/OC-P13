@@ -2,20 +2,32 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const fetchProfile = createAsyncThunk(
    'profile/fetchProfile',
-   async (token) => {
+   async (token, { rejectWithValue }) => {
       return fetch('http://localhost:3001/api/v1/user/profile', {
          method: 'POST', // or 'PUT'
          headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
          },
-      }).then((result) => result.json());
+      })
+         .then((result) => result.json())
+         .then((data) => {
+            if (data.status !== 200) {
+               return rejectWithValue(data.message);
+            } else {
+               return data;
+            }
+         });
    }
 );
 
 export const profileSlice = createSlice({
    name: 'profile',
-   initialState: '',
+   initialState: {
+      loading: false,
+      profile: null,
+      error: null,
+   },
    reducers: {
       updateFirstName: (currentState, action) => {
          const profile = {
@@ -28,30 +40,23 @@ export const profileSlice = createSlice({
             profile: { ...currentState.profile, body: { ...profile } },
          };
       },
-      addProfile: (currentState, action) => {
-         const profile = { ...currentState.profile.body, ...action.payload };
-         return profile;
-      },
    },
    extraReducers: (builder) => {
       builder.addCase(fetchProfile.pending, (state, action) => {
-         return { ...state, loading: true };
+         state.loading = true;
+         state.profile = null;
+         state.error = null;
       });
       builder.addCase(fetchProfile.fulfilled, (state, action) => {
-         return {
-            ...state,
-            loading: false,
-            profile: action.payload,
-            error: null,
-         };
+         console.log(action.payload);
+         state.loading = false;
+         state.profile = action.payload;
+         state.error = null;
       });
       builder.addCase(fetchProfile.rejected, (state, action) => {
-         return {
-            ...state,
-            loading: false,
-            token: null,
-            error: action.error.message,
-         };
+         state.loading = false;
+         state.profile = null;
+         state.error = action.error.message;
       });
    },
 });

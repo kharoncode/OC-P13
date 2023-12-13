@@ -6,6 +6,7 @@ import Profile from '@pages/profile/Profile';
 import Login from '@pages/login/Login';
 import { Provider } from 'react-redux';
 import { store } from '@router/store';
+import PrivateRoute from '../utils/PrivateRoute';
 
 function App() {
    return (
@@ -15,7 +16,8 @@ function App() {
             <Routes>
                <Route path="/" element={<Home />} />
                <Route path="/login" element={<Login />} />
-               <Route path="/profile" element={<Profile />} />
+               <PrivateRoute path="/profile" element={<Profile />} />
+               {/* <Route path="/profile" element={<Profile />} /> */}
             </Routes>
             <Footer />
          </Router>

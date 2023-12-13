@@ -1,37 +1,48 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export const fetchToken = createAsyncThunk('login/fetchToken', async (data) => {
-   return fetch('http://localhost:3001/api/v1/user/login', {
-      method: 'POST',
-      headers: {
-         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-   }).then((result) => result.json());
-});
+export const fetchToken = createAsyncThunk(
+   'login/fetchToken',
+   async (data, { rejectWithValue }) => {
+      return fetch('http://localhost:3001/api/v1/user/login', {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         body: JSON.stringify(data),
+      })
+         .then((result) => result.json())
+         .then((data) => {
+            if (data.status !== 200) {
+               return rejectWithValue(data.message);
+            } else {
+               return data;
+            }
+         });
+   }
+);
 
 export const loginSlice = createSlice({
    name: 'login',
-   initialState: '',
+   initialState: {
+      loading: false,
+      token: false,
+      error: null,
+   },
    extraReducers: (builder) => {
       builder.addCase(fetchToken.pending, (state, action) => {
-         return { ...state, loading: true };
+         state.loading = true;
+         state.token = false;
+         state.error = null;
       });
       builder.addCase(fetchToken.fulfilled, (state, action) => {
-         return {
-            ...state,
-            loading: false,
-            token: action.payload.body.token,
-            error: null,
-         };
+         state.loading = false;
+         state.token = action.payload.body?.token;
+         state.error = null;
       });
       builder.addCase(fetchToken.rejected, (state, action) => {
-         return {
-            ...state,
-            loading: false,
-            token: null,
-            error: action.error.message,
-         };
+         state.loading = false;
+         state.token = false;
+         state.error = action.error.message;
       });
    },
 });

@@ -1,6 +1,6 @@
 import userCircle from '@assets/circle-user-solid.svg';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useStore } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import { fetchToken } from './loginSlice';
 import { useEffect, useState } from 'react';
 import { fetchProfile } from '../profile/profileSlice';
@@ -9,7 +9,8 @@ function Login() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const store = useStore();
-   const [isloading, setLoading] = useState(true);
+
+   const { loading, error } = useSelector((state) => state.login);
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -18,13 +19,9 @@ function Login() {
       dispatch(fetchToken({ email: userName, password: password }));
    };
 
-   useEffect(() => {
-      store.subscribe(() => setLoading(store.getState().login.loading));
-   });
+   const token = store.getState().login.token;
 
-   if (!isloading) {
-      const token = store.getState().login.token;
-      dispatch(fetchProfile(token));
+   if (token) {
       navigate('/profile');
    }
 
@@ -46,8 +43,10 @@ function Login() {
                   <input type="checkbox" id="remember-me" />
                   <label htmlFor="remember-me">Remember me</label>
                </div>
-               <button className="sign-in-button">Sign In</button>
-               <Link to={'/profile'}>Test</Link>
+               <button className="sign-in-button">
+                  {loading ? 'Loading ...' : 'Sign In'}
+               </button>
+               {error && <div>Acces denied !</div>}
             </form>
          </section>
       </main>
