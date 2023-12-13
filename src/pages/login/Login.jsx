@@ -1,28 +1,36 @@
 import userCircle from '@assets/circle-user-solid.svg';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchToken } from './loginSlice';
 import { getLogin } from '../../router/selectors';
 
 function Login() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
-   const store = useStore();
-
    const { loading, error } = useSelector(getLogin);
 
    const handleSubmit = (e) => {
       e.preventDefault();
       const userName = e.currentTarget.username.value;
       const password = e.currentTarget.password.value;
-      dispatch(fetchToken({ email: userName, password: password }));
+      dispatch(fetchToken({ email: userName, password: password })).then(
+         (data) => {
+            if (data.payload.body.token) {
+               navigate('/profile');
+            }
+         }
+      );
    };
 
-   const token = store.getState().login.token;
-
-   if (token) {
-      navigate('/profile');
-   }
+   const fastSubmit = () => {
+      dispatch(
+         fetchToken({ email: 'steve@rogers.com', password: 'password456' })
+      ).then((data) => {
+         if (data.payload.body.token) {
+            navigate('/profile');
+         }
+      });
+   };
 
    return (
       <main className="main bg-dark">
@@ -47,6 +55,9 @@ function Login() {
                </button>
                {error && <div>Acces denied !</div>}
             </form>
+            <button className="sign-in-button" onClick={fastSubmit}>
+               FastConnect
+            </button>
          </section>
       </main>
    );

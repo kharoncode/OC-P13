@@ -1,22 +1,20 @@
 import Account from '@components/account/Account';
 import User from '@components/user/User';
-import { useDispatch, useStore } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import { fetchProfile } from './profileSlice';
-import { useNavigate } from 'react-router-dom';
+import { getProfile, getToken, getUser } from '../../router/selectors';
+import { useEffect, useState } from 'react';
 
 function Profile() {
    const store = useStore();
    const dispatch = useDispatch();
-   const navigate = useNavigate();
-   const token = store.getState().login.token;
-   console.log(token);
-   if (token) {
-      dispatch(fetchProfile(token));
-   } else {
-      navigate('/login');
-   }
+   const token = useSelector(getToken);
+   dispatch(fetchProfile(token)).then((data) => {
+      if (data.payload.body) {
+         console.log(data.payload.body);
+      }
+   });
 
-   const profile = store.getState().profile;
    const mockedData = {
       user: {
          email: 'steve@rogers.com',

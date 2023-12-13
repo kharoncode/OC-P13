@@ -6,7 +6,6 @@ import { profileSlice } from '../../pages/profile/profileSlice';
 function User() {
    const store = useStore();
    const [user, setUser] = useState(store.getState().profile);
-   //const [user, setUser] = useState(store.getState().user);
 
    const handleSubmit = () => {
       const data = 'Peter Parker';
@@ -17,21 +16,13 @@ function User() {
             lastName: name[1],
          })
       );
-      // store.dispatch(
-      //    userSlice.actions.updateFirstName({
-      //       firstName: name[0],
-      //       lastName: name[1],
-      //    })
-      // );
    };
 
    useEffect(() => {
       store.subscribe(() => setUser(store.getState().profile));
-      //store.subscribe(() => setUser(store.getState().user));
    });
 
    const profile = user?.profile?.body;
-   console.log(user.profile);
    if (profile !== undefined) {
       return (
          <div className="header">

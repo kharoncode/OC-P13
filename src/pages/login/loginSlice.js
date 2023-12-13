@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const fetchToken = createAsyncThunk(
    'login/fetchToken',
    async (data, { rejectWithValue }) => {
-      return fetch('http://localhost:3001/api/v1/user/login', {
+      return fetch(`${import.meta.env.VITE_HOST}/api/v1/user/login`, {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
@@ -27,6 +27,11 @@ export const loginSlice = createSlice({
       loading: false,
       token: false,
       error: null,
+   },
+   reducers: {
+      resetLogin: (currentState, action) => {
+         return { ...currentState, initialState };
+      },
    },
    extraReducers: (builder) => {
       builder.addCase(fetchToken.pending, (state, action) => {

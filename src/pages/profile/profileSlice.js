@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const fetchProfile = createAsyncThunk(
    'profile/fetchProfile',
    async (token, { rejectWithValue }) => {
-      return fetch('http://localhost:3001/api/v1/user/profile', {
+      return fetch(`${import.meta.env.VITE_HOST}/api/v1/user/profile`, {
          method: 'POST', // or 'PUT'
          headers: {
             'Content-Type': 'application/json',
@@ -40,6 +40,9 @@ export const profileSlice = createSlice({
             profile: { ...currentState.profile, body: { ...profile } },
          };
       },
+      resetProfile: (currentState, action) => {
+         return { ...currentState, initialState };
+      },
    },
    extraReducers: (builder) => {
       builder.addCase(fetchProfile.pending, (state, action) => {
@@ -48,7 +51,6 @@ export const profileSlice = createSlice({
          state.error = null;
       });
       builder.addCase(fetchProfile.fulfilled, (state, action) => {
-         console.log(action.payload);
          state.loading = false;
          state.profile = action.payload;
          state.error = null;
