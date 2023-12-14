@@ -21,13 +21,33 @@ export const fetchProfile = createAsyncThunk(
    }
 );
 
+const initialState = {
+   loading: false,
+   profile: null,
+   error: null,
+   isAuthenticated: false,
+   account: [
+      {
+         title: 'Argent Bank Checking (x8349)',
+         amount: 2082.79,
+         description: 'Available Balance',
+      },
+      {
+         title: 'Argent Bank Savings (x6712)',
+         amount: 10928.42,
+         description: 'Available Balance',
+      },
+      {
+         title: 'Argent Bank Credit Card (x8349)',
+         amount: 184.3,
+         description: 'Available Balance',
+      },
+   ],
+};
+
 export const profileSlice = createSlice({
    name: 'profile',
-   initialState: {
-      loading: false,
-      profile: null,
-      error: null,
-   },
+   initialState,
    reducers: {
       updateFirstName: (currentState, action) => {
          const profile = {
@@ -40,8 +60,12 @@ export const profileSlice = createSlice({
             profile: { ...currentState.profile, body: { ...profile } },
          };
       },
-      resetProfile: (currentState, action) => {
-         return { ...currentState, initialState };
+      loadLocalStorage: (currentState, action) => {
+         console.log(action.payload);
+         return action.payload;
+      },
+      resetProfile: () => {
+         return initialState;
       },
    },
    extraReducers: (builder) => {
@@ -49,16 +73,19 @@ export const profileSlice = createSlice({
          state.loading = true;
          state.profile = null;
          state.error = null;
+         state.isAuthenticated = false;
       });
       builder.addCase(fetchProfile.fulfilled, (state, action) => {
          state.loading = false;
          state.profile = action.payload;
          state.error = null;
+         state.isAuthenticated = true;
       });
       builder.addCase(fetchProfile.rejected, (state, action) => {
          state.loading = false;
          state.profile = null;
          state.error = action.error.message;
+         state.isAuthenticated = false;
       });
    },
 });

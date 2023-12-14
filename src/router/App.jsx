@@ -15,9 +15,16 @@ function App() {
             <Header />
             <Routes>
                <Route path="/" element={<Home />} />
+               <Route
+                  re
+                  path="/profile"
+                  element={
+                     <PrivateRoute>
+                        <Profile />
+                     </PrivateRoute>
+                  }
+               />
                <Route path="/login" element={<Login />} />
-               {/* <PrivateRoute path="/profile" element={<Profile />} /> */}
-               <Route path="/profile" element={<Profile />} />
             </Routes>
             <Footer />
          </Router>

@@ -1,10 +1,14 @@
-import { useStore } from 'react-redux';
-import { Route, redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { getToken } from '../router/selectors';
 
-function PrivateRoute({ children, ...rest }) {
-   const store = useStore();
-   const token = store.getState().login.token;
-   return <Route {...rest}>{!token ? redirect('/login') : children}</Route>;
+function PrivateRoute({ children }) {
+   const token = useSelector(getToken);
+   if (!token) {
+      return <Navigate to="/login" />;
+   } else {
+      return children;
+   }
 }
 
 export default PrivateRoute;

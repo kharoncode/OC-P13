@@ -1,11 +1,10 @@
-import { useStore } from 'react-redux';
-//import { userSlice } from './userSlice';
-import { useEffect, useState } from 'react';
+import { useSelector, useStore } from 'react-redux';
 import { profileSlice } from '../../pages/profile/profileSlice';
+import { getUser } from '../../router/selectors';
 
 function User() {
    const store = useStore();
-   const [user, setUser] = useState(store.getState().profile);
+   const user = useSelector(getUser);
 
    const handleSubmit = () => {
       const data = 'Peter Parker';
@@ -18,25 +17,18 @@ function User() {
       );
    };
 
-   useEffect(() => {
-      store.subscribe(() => setUser(store.getState().profile));
-   });
-
-   const profile = user?.profile?.body;
-   if (profile !== undefined) {
-      return (
-         <div className="header">
-            <h1>
-               Welcome back
-               <br />
-               {profile.firstName} {profile.lastName} !
-            </h1>
-            <button className="edit-button" onClick={() => handleSubmit()}>
-               Edit Name
-            </button>
-         </div>
-      );
-   }
+   return (
+      <div className="header">
+         <h1>
+            Welcome back
+            <br />
+            {user.firstName} {user.lastName} !
+         </h1>
+         <button className="edit-button" onClick={() => handleSubmit()}>
+            Edit Name
+         </button>
+      </div>
+   );
 }
 
 export default User;

@@ -60,6 +60,29 @@ main {
    margin-right: 0.5rem;
 }
 
+.main-nav-profile {
+   text-decoration: none;
+   margin-right: 0.5rem;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 5px;
+}
+
+.main-nav-profile div a {
+   text-decoration: none;
+}
+.main-nav-profile div:hover {
+   text-decoration: underline;
+}
+
+.main-nav-profile-item {
+   cursor: pointer;
+}
+.main-nav-profile-item:hover {
+   text-decoration: underline;
+}
+
 .main-nav-item:hover {
    text-decoration: underline;
 }

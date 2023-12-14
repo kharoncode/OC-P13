@@ -10,6 +10,10 @@ export function getProfile(state) {
    return state?.profile;
 }
 
+export function getIsAuthenticated(state) {
+   return getProfile(state)?.isAuthenticated;
+}
+
 export function getUser(state) {
-   return getProfile(state)?.body;
+   return getProfile(state)?.profile.body;
 }

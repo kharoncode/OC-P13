@@ -21,16 +21,18 @@ export const fetchToken = createAsyncThunk(
    }
 );
 
+const initialState = {
+   loading: false,
+   token: false,
+   error: null,
+};
+
 export const loginSlice = createSlice({
    name: 'login',
-   initialState: {
-      loading: false,
-      token: false,
-      error: null,
-   },
+   initialState,
    reducers: {
-      resetLogin: (currentState, action) => {
-         return { ...currentState, initialState };
+      resetLogin: () => {
+         return initialState;
       },
    },
    extraReducers: (builder) => {
