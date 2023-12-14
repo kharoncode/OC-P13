@@ -1,26 +1,31 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfile } from '../../pages/profile/profileSlice';
 import { getToken, getUser } from '../../router/selectors';
+import { useState } from 'react';
 
 function User() {
+   const [isOpen, setOpen] = useState(false);
    const user = useSelector(getUser);
    const token = useSelector(getToken);
    const dispatch = useDispatch();
 
-   const handleSubmit = () => {
-      const data = 'Peter Parker';
-      const name = data.split(' ');
-      const dataS = {
-         firstName: name[0],
-         lastName: name[1],
-      };
-      dispatch(updateProfile({ name: dataS, token: token }));
-      // store.dispatch(
-      //    profileSlice.actions.updateFirstName({
-      //       firstName: name[0],
-      //       lastName: name[1],
-      //    })
-      // );
+   const editModale = () => {
+      setOpen(!isOpen);
+   };
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      const firstName = e.currentTarget.firstName.value;
+      const lastName = e.currentTarget.lastName.value;
+      dispatch(
+         updateProfile({
+            name: {
+               firstName: firstName === '' ? user.firstName : firstName,
+               lastName: lastName === '' ? user.lastName : lastName,
+            },
+            token: token,
+         })
+      );
    };
 
    return (
@@ -30,9 +35,40 @@ function User() {
             <br />
             {user.firstName} {user.lastName} !
          </h1>
-         <button className="edit-button" onClick={() => handleSubmit()}>
-            Edit Name
-         </button>
+
+         {isOpen ? (
+            <form className="editModale" onSubmit={(e) => handleSubmit(e)}>
+               <div className="editModale-container">
+                  <label htmlFor="firstName"></label>
+                  <input
+                     type="text"
+                     id="firstName"
+                     placeholder={user.firstName}
+                  />
+                  <button type="submit" className="edit-button left">
+                     Edit
+                  </button>
+               </div>
+               <div className="editModale-container">
+                  <label htmlFor="lastName"></label>
+                  <input
+                     type="text"
+                     id="lastName"
+                     placeholder={user.lastName}
+                  />
+                  <button
+                     className="edit-button right"
+                     onClick={() => editModale()}
+                  >
+                     Close
+                  </button>
+               </div>
+            </form>
+         ) : (
+            <button className="edit-button" onClick={() => editModale()}>
+               Edit Name
+            </button>
+         )}
       </div>
    );
 }
