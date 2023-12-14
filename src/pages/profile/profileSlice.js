@@ -4,11 +4,33 @@ export const fetchProfile = createAsyncThunk(
    'profile/fetchProfile',
    async (token, { rejectWithValue }) => {
       return fetch(`${import.meta.env.VITE_HOST}/api/v1/user/profile`, {
-         method: 'POST', // or 'PUT'
+         method: 'POST',
          headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
          },
+      })
+         .then((result) => result.json())
+         .then((data) => {
+            if (data.status !== 200) {
+               return rejectWithValue(data.message);
+            } else {
+               return data;
+            }
+         });
+   }
+);
+
+export const updateProfile = createAsyncThunk(
+   'profile/updateProfile',
+   async ({ name, token }, { rejectWithValue }) => {
+      return fetch(`${import.meta.env.VITE_HOST}/api/v1/user/profile`, {
+         method: 'PUT',
+         headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+         },
+         body: JSON.stringify(name),
       })
          .then((result) => result.json())
          .then((data) => {
@@ -60,10 +82,6 @@ export const profileSlice = createSlice({
             profile: { ...currentState.profile, body: { ...profile } },
          };
       },
-      loadLocalStorage: (currentState, action) => {
-         console.log(action.payload);
-         return action.payload;
-      },
       resetProfile: () => {
          return initialState;
       },
@@ -86,6 +104,21 @@ export const profileSlice = createSlice({
          state.profile = null;
          state.error = action.error.message;
          state.isAuthenticated = false;
+      });
+      builder.addCase(updateProfile.pending, (state, action) => {
+         state.loading = true;
+         state.profile = null;
+         state.error = null;
+      });
+      builder.addCase(updateProfile.fulfilled, (state, action) => {
+         state.loading = false;
+         state.profile = action.payload;
+         state.error = null;
+      });
+      builder.addCase(updateProfile.rejected, (state, action) => {
+         state.loading = false;
+         state.profile = null;
+         state.error = action.error.message;
       });
    },
 });

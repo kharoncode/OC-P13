@@ -1,20 +1,26 @@
-import { useSelector, useStore } from 'react-redux';
-import { profileSlice } from '../../pages/profile/profileSlice';
-import { getUser } from '../../router/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateProfile } from '../../pages/profile/profileSlice';
+import { getToken, getUser } from '../../router/selectors';
 
 function User() {
-   const store = useStore();
    const user = useSelector(getUser);
+   const token = useSelector(getToken);
+   const dispatch = useDispatch();
 
    const handleSubmit = () => {
       const data = 'Peter Parker';
       const name = data.split(' ');
-      store.dispatch(
-         profileSlice.actions.updateFirstName({
-            firstName: name[0],
-            lastName: name[1],
-         })
-      );
+      const dataS = {
+         firstName: name[0],
+         lastName: name[1],
+      };
+      dispatch(updateProfile({ name: dataS, token: token }));
+      // store.dispatch(
+      //    profileSlice.actions.updateFirstName({
+      //       firstName: name[0],
+      //       lastName: name[1],
+      //    })
+      // );
    };
 
    return (
