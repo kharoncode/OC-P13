@@ -1,14 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import userCircle from '@assets/circle-user-solid.svg';
 import { useSelector, useStore } from 'react-redux';
-import { getIsAuthenticated } from '../../router/selectors';
+import { getToken } from '../../router/selectors';
 import { profileSlice } from '../../pages/profile/profileSlice';
 import { loginSlice } from '../../pages/login/loginSlice';
 
 function SignInOut() {
    const store = useStore();
    const navigate = useNavigate();
-   const isAuthenticated = useSelector(getIsAuthenticated);
+   const isAuthenticated = useSelector(getToken);
 
    const logOut = () => {
       store.dispatch(profileSlice.actions.resetProfile());

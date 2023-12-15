@@ -44,7 +44,7 @@ export const updateProfile = createAsyncThunk(
 );
 
 const initialState = {
-   loading: false,
+   loading: true,
    profile: null,
    error: null,
    isAuthenticated: false,
