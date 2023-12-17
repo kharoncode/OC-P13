@@ -2,17 +2,13 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { thunk } from 'redux-thunk';
 import { loginSlice } from '../pages/login/loginSlice';
 import { profileSlice } from '../pages/profile/profileSlice';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-const tokenStorage = sessionStorage.getItem('token')
-   ? JSON.parse(sessionStorage.getItem('token'))
-   : localStorage.getItem('token')
-   ? JSON.parse(localStorage.getItem('token'))
-   : false;
-
-const state = {
+const initialState = {
    login: {
       loading: false,
-      token: tokenStorage,
+      token: null,
       error: null,
    },
    profile: {
@@ -40,11 +36,23 @@ const state = {
    },
 };
 
-export const store = configureStore({
-   preloadedState: state,
-   reducer: combineReducers({
-      login: loginSlice.reducer,
-      profile: profileSlice.reducer,
-   }),
-   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+const reducers = combineReducers({
+   login: loginSlice.reducer,
+   profile: profileSlice.reducer,
 });
+
+const persistConfig = {
+   key: 'root',
+   storage,
+   whitelist: ['login'],
+};
+
+const persistreducer = persistReducer(persistConfig, reducers);
+
+export const store = configureStore({
+   reducer: persistreducer,
+   middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({ serializableCheck: false }).concat(thunk),
+});
+
+export const persistor = persistStore(store, { manualPersist: false });

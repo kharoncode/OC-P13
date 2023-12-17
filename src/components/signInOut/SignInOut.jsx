@@ -11,10 +11,7 @@ function SignInOut() {
    const isAuthenticated = useSelector(getToken);
 
    const logOut = () => {
-      store.dispatch(profileSlice.actions.resetProfile());
       store.dispatch(loginSlice.actions.resetLogin());
-      localStorage.clear();
-      sessionStorage.clear();
       navigate('/login');
    };
 

@@ -18,11 +18,11 @@ function Login() {
          (data) => {
             const token = data.payload.body.token;
             if (token) {
-               if (remember) {
-                  localStorage.setItem('token', JSON.stringify(token));
-               } else {
-                  sessionStorage.setItem('token', JSON.stringify(token));
-               }
+               // if (remember) {
+               //    localStorage.setItem('token', JSON.stringify(token));
+               // } else {
+               //    sessionStorage.setItem('token', JSON.stringify(token));
+               // }
                navigate('/profile');
             }
          }

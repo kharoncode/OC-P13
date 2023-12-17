@@ -5,29 +5,32 @@ import Home from '@pages/home/Home';
 import Profile from '@pages/profile/Profile';
 import Login from '@pages/login/Login';
 import { Provider } from 'react-redux';
-import { store } from '@router/store';
+import { store, persistor } from '@router/store';
 import PrivateRoute from '../utils/PrivateRoute';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {
    return (
       <Provider store={store}>
-         <Router>
-            <Header />
-            <Routes>
-               <Route path="/" element={<Home />} />
-               <Route
-                  re
-                  path="/profile"
-                  element={
-                     <PrivateRoute>
-                        <Profile />
-                     </PrivateRoute>
-                  }
-               />
-               <Route path="/login" element={<Login />} />
-            </Routes>
-            <Footer />
-         </Router>
+         <PersistGate loading={null} persistor={persistor}>
+            <Router>
+               <Header />
+               <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route
+                     re
+                     path="/profile"
+                     element={
+                        <PrivateRoute>
+                           <Profile />
+                        </PrivateRoute>
+                     }
+                  />
+                  <Route path="/login" element={<Login />} />
+               </Routes>
+               <Footer />
+            </Router>
+         </PersistGate>
       </Provider>
    );
 }
