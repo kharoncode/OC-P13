@@ -1,10 +1,11 @@
 import userCircle from '@assets/circle-user-solid.svg';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchToken } from './loginSlice';
+import { useDispatch, useSelector, useStore } from 'react-redux';
+import { fetchToken, loginSlice } from './loginSlice';
 import { getLogin } from '../../router/selectors';
 
 function Login() {
+   const store = useStore();
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const { loading, error } = useSelector(getLogin);
@@ -14,10 +15,12 @@ function Login() {
       const userName = e.currentTarget.username.value;
       const password = e.currentTarget.password.value;
       const remember = e.target.rememberMe.checked;
+
       dispatch(fetchToken({ email: userName, password: password })).then(
          (data) => {
             const token = data.payload.body.token;
             if (token) {
+               store.dispatch(loginSlice.actions.rememberMe(remember));
                // if (remember) {
                //    localStorage.setItem('token', JSON.stringify(token));
                // } else {

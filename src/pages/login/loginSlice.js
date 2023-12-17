@@ -25,6 +25,7 @@ const initialState = {
    loading: false,
    token: false,
    error: null,
+   rememberMe: false,
 };
 
 export const loginSlice = createSlice({
@@ -33,6 +34,10 @@ export const loginSlice = createSlice({
    reducers: {
       resetLogin: () => {
          return initialState;
+      },
+      rememberMe: (currentState, action) => {
+         const remember = { ...currentState, rememberMe: action.payload };
+         return remember;
       },
    },
    extraReducers: (builder) => {
