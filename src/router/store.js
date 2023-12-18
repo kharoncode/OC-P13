@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import storageSession from 'redux-persist/es/storage/session';
+import storageSession from 'redux-persist/lib/storage/session';
 import { thunk } from 'redux-thunk';
 import { loginSlice } from '@pages/login/loginSlice';
 import { profileSlice } from '@pages/profile/profileSlice';
@@ -9,15 +9,12 @@ import { loginSessionSlice } from '@pages/login/loginSessionSlice';
 
 const persistConfig = {
    key: 'root',
-   storage: storage,
-   whitelist: ['login'],
-   blacklist: ['loginSession'],
+   storage: storageSession,
 };
 
 const persistConfigSession = {
-   key: 'loginSession',
-   storage: storageSession,
-   whitelist: ['loginSession'],
+   key: 'session',
+   storage: storage,
 };
 
 const reducers = combineReducers({
@@ -29,10 +26,8 @@ const reducers = combineReducers({
    profile: profileSlice.reducer,
 });
 
-const persistreducer = persistReducer(persistConfig, reducers);
-
 const store = configureStore({
-   reducer: persistreducer,
+   reducer: persistReducer(persistConfig, reducers),
    middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(thunk),
 });

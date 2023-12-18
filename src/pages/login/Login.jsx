@@ -11,8 +11,8 @@ function Login() {
    const navigate = useNavigate();
    const [remember, setRemember] = useState(false);
    const { loading, error } = remember
-      ? useSelector(getLogin)
-      : useSelector(getLoginSession);
+      ? useSelector(getLoginSession)
+      : useSelector(getLogin);
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -20,15 +20,6 @@ function Login() {
       const password = e.currentTarget.password.value;
       const remember = e.target.rememberMe.checked;
       if (remember) {
-         dispatch(fetchToken({ email: userName, password: password })).then(
-            (data) => {
-               const token = data.payload.body.token;
-               if (token) {
-                  navigate('/profile');
-               }
-            }
-         );
-      } else {
          dispatch(
             fetchTokenSession({ email: userName, password: password })
          ).then((data) => {
@@ -37,6 +28,15 @@ function Login() {
                navigate('/profile');
             }
          });
+      } else {
+         dispatch(fetchToken({ email: userName, password: password })).then(
+            (data) => {
+               const token = data.payload.body.token;
+               if (token) {
+                  navigate('/profile');
+               }
+            }
+         );
       }
    };
 

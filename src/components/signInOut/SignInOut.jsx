@@ -5,6 +5,8 @@ import { useStore } from 'react-redux';
 import { returnToken } from '@router/selectors';
 import { loginSlice } from '@pages/login/loginSlice';
 import { loginSessionSlice } from '@pages/login/loginSessionSlice';
+import { persistor } from '../../router/store';
+import { profileSlice } from '../../pages/profile/profileSlice';
 
 function SignInOut() {
    const store = useStore();
@@ -14,6 +16,7 @@ function SignInOut() {
    const logOut = () => {
       store.dispatch(loginSlice.actions.resetLogin());
       store.dispatch(loginSessionSlice.actions.resetLogin());
+      store.dispatch(profileSlice.actions.resetProfile());
       navigate('/login');
    };
 
