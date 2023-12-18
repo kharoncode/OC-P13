@@ -10,11 +10,13 @@ import { loginSessionSlice } from '@pages/login/loginSessionSlice';
 const persistConfig = {
    key: 'root',
    storage: storageSession,
+   blacklist: ['profile'],
 };
 
 const persistConfigSession = {
    key: 'local',
    storage: storage,
+   blacklist: ['profile'],
 };
 
 const reducers = combineReducers({
