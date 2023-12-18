@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import userCircle from '@assets/circle-user-solid.svg';
+import logOutLogo from '@assets/logout.svg';
 import { useStore } from 'react-redux';
 import { returnToken } from '@router/selectors';
 import { loginSlice } from '@pages/login/loginSlice';
@@ -26,15 +27,14 @@ function SignInOut() {
             />{' '}
             <Link to={`/profile`}>Profile</Link>
          </div>
-         <span>/</span>
+         <img className="main-nav-profile-item" src={logOutLogo} alt="logout" />{' '}
          <p className="main-nav-profile-item" onClick={logOut}>
-            LogOut
+            Sign out
          </p>
       </div>
    ) : (
       <Link className="main-nav-item" to={`/login`}>
-         <img src={userCircle} alt="userLogo" />
-         Sign In
+         <img src={userCircle} alt="userLogo" /> Sign In
       </Link>
    );
 }
