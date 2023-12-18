@@ -12,7 +12,7 @@ export function getToken(state) {
 }
 
 export function getTokenSession(state) {
-   return state?.loginSession.token;
+   return getLoginSession(state).token;
 }
 
 export function getProfile(state) {

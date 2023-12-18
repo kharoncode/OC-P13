@@ -3,7 +3,7 @@ import userCircle from '@assets/circle-user-solid.svg';
 import { useStore } from 'react-redux';
 import { returnToken } from '@router/selectors';
 import { loginSlice } from '@pages/login/loginSlice';
-import { sessionSlice } from '@pages/login/sessionSlice';
+import { loginSessionSlice } from '@pages/login/loginSessionSlice';
 
 function SignInOut() {
    const store = useStore();
@@ -12,7 +12,7 @@ function SignInOut() {
 
    const logOut = () => {
       store.dispatch(loginSlice.actions.resetLogin());
-      store.dispatch(sessionSlice.actions.resetLogin());
+      store.dispatch(loginSessionSlice.actions.resetLogin());
       navigate('/login');
    };
 

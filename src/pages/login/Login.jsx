@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchToken } from './loginSlice';
-import { fetchTokenSession } from './sessionSlice';
+import { fetchTokenSession } from './loginSessionSlice';
 import userCircle from '@assets/circle-user-solid.svg';
 import { getLogin, getLoginSession } from '@router/selectors';
 

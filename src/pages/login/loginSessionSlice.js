@@ -27,7 +27,7 @@ const initialState = {
    error: null,
 };
 
-export const sessionSlice = createSlice({
+export const loginSessionSlice = createSlice({
    name: 'loginSession',
    initialState,
    reducers: {
