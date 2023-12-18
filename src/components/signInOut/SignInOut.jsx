@@ -19,18 +19,24 @@ function SignInOut() {
 
    return isAuthenticated ? (
       <div className="main-nav-profile">
-         <div>
+         <div className="main-nav-profile__item">
             <img
                className="main-nav-profile-item"
                src={userCircle}
                alt="userLogo"
-            />{' '}
+            />
             <Link to={`/profile`}>Profile</Link>
          </div>
-         <img className="main-nav-profile-item" src={logOutLogo} alt="logout" />{' '}
-         <p className="main-nav-profile-item" onClick={logOut}>
-            Sign out
-         </p>
+         <div className="main-nav-profile__item">
+            <img
+               className="main-nav-profile-item"
+               src={logOutLogo}
+               alt="logout"
+            />
+            <p className="main-nav-profile-item" onClick={logOut}>
+               Sign out
+            </p>
+         </div>
       </div>
    ) : (
       <Link className="main-nav-item" to={`/login`}>

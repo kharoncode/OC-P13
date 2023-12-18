@@ -56,6 +56,8 @@ main {
 }
 
 .main-nav-item {
+   display: flex;
+   gap: 5px;
    text-decoration: none;
    margin-right: 0.5rem;
 }
@@ -66,7 +68,7 @@ main {
    display: flex;
    justify-content: space-between;
    align-items: center;
-   gap: 5px;
+   gap: 10px;
 }
 
 .main-nav-profile div a {
@@ -79,6 +81,15 @@ main {
 .main-nav-profile-item {
    cursor: pointer;
 }
+
+.main-nav-profile__item {
+   display: flex;
+   align-items: center;
+   text-align: center;
+   justify-content: center;
+   gap: 5px;
+}
+
 .main-nav-profile-item:hover {
    text-decoration: underline;
 }
@@ -202,7 +213,7 @@ main {
 }
 
 .sign-in-icon {
-   font-size: 5rem;
+   width: 5rem;
 }
 
 .input-remember {

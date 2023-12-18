@@ -43,7 +43,7 @@ function Login() {
    return (
       <main className="main bg-dark">
          <section className="sign-in-content">
-            <img src={userCircle} alt="user" />
+            <img className="sign-in-icon" src={userCircle} alt="user" />
             <h1>Sign In</h1>
             <form onSubmit={(e) => handleSubmit(e)}>
                <div className="input-wrapper">
