@@ -13,7 +13,7 @@ const persistConfig = {
 };
 
 const persistConfigSession = {
-   key: 'session',
+   key: 'local',
    storage: storage,
 };
 

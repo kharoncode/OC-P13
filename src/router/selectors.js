@@ -33,3 +33,10 @@ export const returnToken = () => {
       : useSelector(getTokenSession);
    return token;
 };
+
+export const returnError = () => {
+   const error = useSelector(getLoginSession).error
+      ? useSelector(getLoginSession).error
+      : useSelector(getLogin).error;
+   return error;
+};

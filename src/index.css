@@ -216,12 +216,19 @@ main {
    width: 5rem;
 }
 
-.input-remember {
-   display: flex;
+.sign-in-error {
+   margin-top: 5px;
+   padding: 5px;
+   bottom: 5px;
+   background-color: rgba(255, 0, 0, 0.1);
+   border: 1px solid red;
+   color: black;
 }
 
-.input-remember label {
-   margin-left: 0.25rem;
+.input-remember {
+   display: flex;
+   align-items: center;
+   gap: 5px;
 }
 
 .input-wrapper {

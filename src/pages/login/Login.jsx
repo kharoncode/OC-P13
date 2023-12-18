@@ -5,14 +5,16 @@ import { fetchToken } from './loginSlice';
 import { fetchTokenSession } from './loginSessionSlice';
 import userCircle from '@assets/circle-user-solid.svg';
 import { getLogin, getLoginSession } from '@router/selectors';
+import { returnError } from '@router/selectors';
 
 function Login() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [remember, setRemember] = useState(false);
-   const { loading, error } = remember
-      ? useSelector(getLoginSession)
-      : useSelector(getLogin);
+   const loading = remember
+      ? useSelector(getLoginSession).loading
+      : useSelector(getLogin).loading;
+   const error = returnError();
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -67,7 +69,11 @@ function Login() {
                <button className="sign-in-button">
                   {loading ? 'Loading ...' : 'Sign In'}
                </button>
-               {error && <div>Acces denied !</div>}
+               {error && (
+                  <div className="sign-in-error">
+                     Login Failed: Your user ID or password is incorrect
+                  </div>
+               )}
             </form>
          </section>
       </main>
