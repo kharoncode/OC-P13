@@ -1,14 +1,14 @@
 import Account from '@components/account/Account';
 import User from '@components/user/User';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProfile, getToken } from '../../router/selectors';
+import { getProfile, returnToken } from '@router/selectors';
 import { fetchProfile } from './profileSlice';
 import { useEffect } from 'react';
 
 function Profile() {
    const dispatch = useDispatch();
+   const token = returnToken();
 
-   const token = useSelector(getToken);
    useEffect(() => {
       dispatch(fetchProfile(token));
    }, []);

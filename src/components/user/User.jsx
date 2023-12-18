@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { updateProfile } from '../../pages/profile/profileSlice';
-import { getToken, getUser } from '../../router/selectors';
+import { updateProfile } from '@pages/profile/profileSlice';
+import { getUser, returnToken } from '@router/selectors';
 import { useState } from 'react';
 
 function User() {
    const [isOpen, setOpen] = useState(false);
    const user = useSelector(getUser);
-   const token = useSelector(getToken);
+   const token = returnToken();
    const dispatch = useDispatch();
 
    const editModale = () => {

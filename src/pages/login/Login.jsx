@@ -1,35 +1,43 @@
-import userCircle from '@assets/circle-user-solid.svg';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector, useStore } from 'react-redux';
-import { fetchToken, loginSlice } from './loginSlice';
-import { getLogin } from '../../router/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchToken } from './loginSlice';
+import { fetchTokenSession } from './sessionSlice';
+import userCircle from '@assets/circle-user-solid.svg';
+import { getLogin, getLoginSession } from '@router/selectors';
 
 function Login() {
-   const store = useStore();
    const dispatch = useDispatch();
    const navigate = useNavigate();
-   const { loading, error } = useSelector(getLogin);
+   const [remember, setRemember] = useState(false);
+   const { loading, error } = remember
+      ? useSelector(getLogin)
+      : useSelector(getLoginSession);
 
    const handleSubmit = (e) => {
       e.preventDefault();
       const userName = e.currentTarget.username.value;
       const password = e.currentTarget.password.value;
       const remember = e.target.rememberMe.checked;
-
-      dispatch(fetchToken({ email: userName, password: password })).then(
-         (data) => {
+      if (remember) {
+         dispatch(fetchToken({ email: userName, password: password })).then(
+            (data) => {
+               const token = data.payload.body.token;
+               if (token) {
+                  navigate('/profile');
+               }
+            }
+         );
+      } else {
+         dispatch(
+            fetchTokenSession({ email: userName, password: password })
+         ).then((data) => {
             const token = data.payload.body.token;
             if (token) {
-               store.dispatch(loginSlice.actions.rememberMe(remember));
-               // if (remember) {
-               //    localStorage.setItem('token', JSON.stringify(token));
-               // } else {
-               //    sessionStorage.setItem('token', JSON.stringify(token));
-               // }
                navigate('/profile');
             }
-         }
-      );
+         });
+      }
    };
 
    return (
@@ -47,7 +55,13 @@ function Login() {
                   <input type="password" id="password" />
                </div>
                <div className="input-remember">
-                  <input type="checkbox" id="rememberMe" />
+                  <input
+                     type="checkbox"
+                     id="rememberMe"
+                     onClick={(e) => {
+                        setRemember(e.target.checked);
+                     }}
+                  />
                   <label htmlFor="rememberMe">Remember me</label>
                </div>
                <button className="sign-in-button">

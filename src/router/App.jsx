@@ -6,7 +6,7 @@ import Profile from '@pages/profile/Profile';
 import Login from '@pages/login/Login';
 import { Provider } from 'react-redux';
 import { store, persistor } from '@router/store';
-import PrivateRoute from '../utils/PrivateRoute';
+import PrivateRoute from '@utils/PrivateRoute';
 import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {

@@ -1,58 +1,39 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { thunk } from 'redux-thunk';
-import { loginSlice } from '../pages/login/loginSlice';
-import { profileSlice } from '../pages/profile/profileSlice';
+import { loginSlice } from '@pages/login/loginSlice';
+import { profileSlice } from '@pages/profile/profileSlice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-
-const initialState = {
-   login: {
-      loading: false,
-      token: null,
-      error: null,
-   },
-   profile: {
-      loading: true,
-      profile: null,
-      error: null,
-      isAuthenticated: false,
-      account: [
-         {
-            title: 'Argent Bank Checking (x8349)',
-            amount: 2082.79,
-            description: 'Available Balance',
-         },
-         {
-            title: 'Argent Bank Savings (x6712)',
-            amount: 10928.42,
-            description: 'Available Balance',
-         },
-         {
-            title: 'Argent Bank Credit Card (x8349)',
-            amount: 184.3,
-            description: 'Available Balance',
-         },
-      ],
-   },
-};
-
-const reducers = combineReducers({
-   login: loginSlice.reducer,
-   profile: profileSlice.reducer,
-});
+import sessionStorage from 'redux-persist/es/storage/session';
+import { sessionSlice } from '@pages/login/sessionSlice';
 
 const persistConfig = {
    key: 'root',
    storage,
    whitelist: ['login'],
+   blacklist: ['loginSession'],
 };
+
+const persistConfigSession = {
+   key: 'session',
+   storage: sessionStorage,
+   whitelist: ['loginSession'],
+};
+
+const reducers = combineReducers({
+   loginSession: persistReducer(persistConfigSession, sessionSlice.reducer),
+   login: loginSlice.reducer,
+   profile: profileSlice.reducer,
+});
 
 const persistreducer = persistReducer(persistConfig, reducers);
 
-export const store = configureStore({
+const store = configureStore({
    reducer: persistreducer,
    middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(thunk),
 });
 
-export const persistor = persistStore(store, { manualPersist: false });
+const persistor = persistStore(store, null);
+
+export { store, persistor };

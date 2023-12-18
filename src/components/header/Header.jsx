@@ -1,6 +1,6 @@
+import { Link } from 'react-router-dom';
 import SignInOut from '@components/signInOut/SignInOut';
 import logo from '@assets/argentBankLogo.png';
-import { Link } from 'react-router-dom';
 
 function Header() {
    return (

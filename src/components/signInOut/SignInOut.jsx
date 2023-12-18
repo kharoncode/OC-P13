@@ -1,17 +1,18 @@
 import { Link, useNavigate } from 'react-router-dom';
 import userCircle from '@assets/circle-user-solid.svg';
-import { useSelector, useStore } from 'react-redux';
-import { getToken } from '../../router/selectors';
-import { profileSlice } from '../../pages/profile/profileSlice';
-import { loginSlice } from '../../pages/login/loginSlice';
+import { useStore } from 'react-redux';
+import { returnToken } from '@router/selectors';
+import { loginSlice } from '@pages/login/loginSlice';
+import { sessionSlice } from '@pages/login/sessionSlice';
 
 function SignInOut() {
    const store = useStore();
    const navigate = useNavigate();
-   const isAuthenticated = useSelector(getToken);
+   const isAuthenticated = returnToken();
 
    const logOut = () => {
       store.dispatch(loginSlice.actions.resetLogin());
+      store.dispatch(sessionSlice.actions.resetLogin());
       navigate('/login');
    };
 
