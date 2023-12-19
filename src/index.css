@@ -359,3 +359,7 @@ main {
 .left {
    align-self: flex-end;
 }
+
+.error-container {
+   padding: 20px;
+}

@@ -1,13 +1,14 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { store, persistor } from '@router/store';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import PrivateRoute from '@utils/PrivateRoute';
 import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
 import Home from '@pages/home/Home';
 import Profile from '@pages/profile/Profile';
 import Login from '@pages/login/Login';
-import { Provider } from 'react-redux';
-import { store, persistor } from '@router/store';
-import PrivateRoute from '@utils/PrivateRoute';
-import { PersistGate } from 'redux-persist/integration/react';
+import Error from '@pages/error/error';
 
 function App() {
    return (
@@ -27,6 +28,7 @@ function App() {
                      }
                   />
                   <Route path="/login" element={<Login />} />
+                  <Route path="*" element={<Error />} />
                </Routes>
                <Footer />
             </Router>
