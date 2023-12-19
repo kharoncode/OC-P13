@@ -5,16 +5,26 @@ import { fetchToken } from './loginSlice';
 import { fetchTokenSession } from './loginSessionSlice';
 import userCircle from '@assets/circle-user-solid.svg';
 import { getLogin, getLoginSession } from '@router/selectors';
-import { returnError } from '@router/selectors';
 
 function Login() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [remember, setRemember] = useState(false);
+   const [error, setError] = useState(false);
    const loading = remember
       ? useSelector(getLoginSession).loading
       : useSelector(getLogin).loading;
-   const error = returnError();
+
+   const dispatchData = (fetch, userName, password) => {
+      dispatch(fetch({ email: userName, password: password })).then((data) => {
+         if (data.error) {
+            setError(true);
+         }
+         if (data.payload.body?.token) {
+            navigate('/profile');
+         }
+      });
+   };
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -22,23 +32,9 @@ function Login() {
       const password = e.currentTarget.password.value;
       const remember = e.target.rememberMe.checked;
       if (remember) {
-         dispatch(
-            fetchTokenSession({ email: userName, password: password })
-         ).then((data) => {
-            const token = data.payload.body.token;
-            if (token) {
-               navigate('/profile');
-            }
-         });
+         dispatchData(fetchTokenSession, userName, password);
       } else {
-         dispatch(fetchToken({ email: userName, password: password })).then(
-            (data) => {
-               const token = data.payload.body.token;
-               if (token) {
-                  navigate('/profile');
-               }
-            }
-         );
+         dispatchData(fetchToken, userName, password);
       }
    };
 
