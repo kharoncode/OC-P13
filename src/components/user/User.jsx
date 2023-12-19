@@ -45,17 +45,17 @@ function User() {
                      id="firstName"
                      placeholder={user.firstName}
                   />
-                  <button type="submit" className="edit-button left">
-                     Edit
-                  </button>
-               </div>
-               <div className="editModale-container">
                   <label htmlFor="lastName"></label>
                   <input
                      type="text"
                      id="lastName"
                      placeholder={user.lastName}
                   />
+               </div>
+               <div className="editModale-container">
+                  <button type="submit" className="edit-button left">
+                     Edit
+                  </button>
                   <button
                      className="edit-button right"
                      onClick={() => editModale()}

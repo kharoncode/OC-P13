@@ -337,27 +337,22 @@ main {
 
 .editModale {
    display: flex;
-   justify-content: center;
+   flex-direction: column;
+   align-items: center;
    gap: 20px;
+}
+
+.editModale input {
+   width: 150px;
+}
+.editModale button {
+   width: 60px;
 }
 
 .editModale-container {
    display: flex;
-   flex-direction: column;
-   align-items: center;
+   justify-content: space-between;
    gap: 10px;
-}
-
-.editModale-container input {
-   width: 150px;
-}
-
-.right {
-   align-self: flex-start;
-}
-
-.left {
-   align-self: flex-end;
 }
 
 .error-container {
