@@ -86,7 +86,7 @@ you should have two users in your database:
 
 ### Steve Rogers
 
--  First Name: `Steve`,
--  Last Name: `Rogers`,
--  Email: `steve@rogers.com`,
+-  First Name: `Steve`
+-  Last Name: `Rogers`
+-  Email: `steve@rogers.com`
 -  Password: `password456`
