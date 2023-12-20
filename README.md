@@ -20,7 +20,7 @@ This repository contains the Front-End from the authentication page of a banking
 -  [redux-tooklkit](https://redux-toolkit.js.org/) v2.0.1
 -  [redux-persist](https://github.com/rt2zz/redux-persist) v6.0.0
 
-### 2.2 Launching the project
+### 2.3 Launching the project
 
 -  Clone the repository
 
