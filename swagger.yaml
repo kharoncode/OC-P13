@@ -111,8 +111,8 @@ paths:
             '400':
                description: Invalid Fields
             '500':
-               description: Internal Server Error
-   /account/overview:
+               description: Internal Server Error          
+   /accounts/current:
       get:
          security:
             - Bearer: []
@@ -126,23 +126,48 @@ paths:
               description: Attach Bearer JWT token
               required: true
               type: string
-            - in: body
-              name: body
-              description: Send the current date
-              required: true
-              schema:
-                 $ref: '#/definitions/AccountDate'
          produces:
             - application/json
          responses:
             '200':
-               description: Transaction retrieved successully
+               description: Current Accounts retrieved successully
+               schema:
+                  $ref: '#/definitions/AccountsResponse'
+            '400':
+               description: Invalid Fields
+            '500':
+               description: Internal Server Error
+   /account:
+      post:
+         security:
+            - Bearer: []
+         tags:
+            - Account Module
+         summary: Account API
+         description: API for fetching an account
+         parameters:
+            - in: header
+              name: Authorization
+              description: Attach Bearer JWT token
+              required: true
+              type: string
+            - in: body
+              name: body
+              description: Account Payload
+              required: true
+              schema:
+                 $ref: '#/definitions/Account'
+         produces:
+            - application/json
+         responses:
+            '200':
+               description: Account retrieved successully
                schema:
                   $ref: '#/definitions/AccountResponse'
             '400':
                description: Invalid Fields
             '500':
-               description: Internal Server Error
+               description: Internal Server Error           
    /account/transaction:
       post:
          security:
@@ -288,12 +313,7 @@ definitions:
             type: string
          lastName:
             type: string
-   AccountDate:
-      type: object
-      properties:
-         date:
-            type: string
-   AccountResponse:
+   AccountsResponse:
       type: object
       properties:
          status:
@@ -329,11 +349,45 @@ definitions:
                                     type: string
                                  amount:
                                     type: integer
+   AccountResponse:
+      type: object
+      properties:
+         status:
+            type: integer
+         message:
+            type: string
+         body:
+            type: object
+            properties:
+               id:
+                 type: string
+               title:
+                 type: string
+               description:
+                 type: string
+               transactions:
+                 type: array
+                 items:
+                    type: object
+                    properties:
+                       id:
+                          type: string
+                       date:
+                          type: string
+                       description:
+                          type: string
+                       amount:
+                          type: integer                                  
    Transaction:
       properties:
          id:
             type: string
             description: transaction id
+   Account:
+      properties:
+         id:
+            type: string
+            description: account id          
    TransactionResponse:
       type: object
       properties:
