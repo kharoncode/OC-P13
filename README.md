@@ -40,7 +40,7 @@ This repository contains the Front-End from the authentication page of a banking
 
 ## 3. BackEnd
 
-### 2.1 Prerequisites
+### 3.1 Prerequisites
 
 -  [NodeJS](https://nodejs.org/en/) v12
 -  [MongoDB Community Server](https://www.mongodb.com/try/download/community)
@@ -51,7 +51,7 @@ This repository contains the Front-End from the authentication page of a banking
 
    `https://aur.archlinux.org/mongodb-bin.git`
 
-### 2.2 Lauching the BackEnd
+### 3.2 Lauching the BackEnd
 
 -  Clone the repository
 
