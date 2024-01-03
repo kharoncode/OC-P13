@@ -5,7 +5,7 @@ import storageSession from 'redux-persist/lib/storage/session';
 import { thunk } from 'redux-thunk';
 import { loginSlice } from '@pages/login/loginSlice';
 import { profileSlice } from '@pages/profile/profileSlice';
-import { loginSessionSlice } from '@pages/login/loginSessionSlice';
+import { loginLocalSlice } from '@pages/login/loginLocalSlice';
 
 const persistConfig = {
    key: 'root',
@@ -13,17 +13,14 @@ const persistConfig = {
    blacklist: ['profile'],
 };
 
-const persistConfigSession = {
+const persistConfigLocal = {
    key: 'local',
    storage: storage,
    blacklist: ['profile'],
 };
 
 const reducers = combineReducers({
-   loginSession: persistReducer(
-      persistConfigSession,
-      loginSessionSlice.reducer
-   ),
+   loginLocal: persistReducer(persistConfigLocal, loginLocalSlice.reducer),
    login: loginSlice.reducer,
    profile: profileSlice.reducer,
 });

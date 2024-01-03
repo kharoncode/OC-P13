@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export const fetchTokenSession = createAsyncThunk(
-   'loginSession/fetchTokenSession',
+export const fetchTokenLocal = createAsyncThunk(
+   'loginLocal/fetchTokenLocal',
    async (data, { rejectWithValue }) => {
       return fetch(`${import.meta.env.VITE_HOST}/api/v1/user/login`, {
          method: 'POST',
@@ -27,8 +27,8 @@ const initialState = {
    error: null,
 };
 
-export const loginSessionSlice = createSlice({
-   name: 'loginSession',
+export const loginLocalSlice = createSlice({
+   name: 'loginLocal',
    initialState,
    reducers: {
       resetLogin: () => {
@@ -36,17 +36,17 @@ export const loginSessionSlice = createSlice({
       },
    },
    extraReducers: (builder) => {
-      builder.addCase(fetchTokenSession.pending, (state, action) => {
+      builder.addCase(fetchTokenLocal.pending, (state, action) => {
          state.loading = true;
          state.token = false;
          state.error = null;
       });
-      builder.addCase(fetchTokenSession.fulfilled, (state, action) => {
+      builder.addCase(fetchTokenLocal.fulfilled, (state, action) => {
          state.loading = false;
          state.token = action.payload.body?.token;
          state.error = null;
       });
-      builder.addCase(fetchTokenSession.rejected, (state, action) => {
+      builder.addCase(fetchTokenLocal.rejected, (state, action) => {
          state.loading = false;
          state.token = false;
          state.error = action.error.message;

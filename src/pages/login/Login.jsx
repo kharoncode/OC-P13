@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchToken } from './loginSlice';
-import { fetchTokenSession } from './loginSessionSlice';
+import { fetchTokenLocal } from './loginLocalSlice';
 import userCircle from '@assets/circle-user-solid.svg';
-import { getLogin, getLoginSession } from '@router/selectors';
+import { getLogin, getloginLocal } from '@router/selectors';
 
 function Login() {
    const dispatch = useDispatch();
@@ -12,7 +12,7 @@ function Login() {
    const [remember, setRemember] = useState(false);
    const [error, setError] = useState(false);
    const loading = remember
-      ? useSelector(getLoginSession).loading
+      ? useSelector(getloginLocal).loading
       : useSelector(getLogin).loading;
 
    const dispatchData = (fetch, userName, password) => {
@@ -32,7 +32,7 @@ function Login() {
       const password = e.currentTarget.password.value;
       const remember = e.target.rememberMe.checked;
       if (remember) {
-         dispatchData(fetchTokenSession, userName, password);
+         dispatchData(fetchTokenLocal, userName, password);
       } else {
          dispatchData(fetchToken, userName, password);
       }

@@ -3,24 +3,20 @@ import { useSelector } from 'react-redux';
 export function getLogin(state) {
    return state?.login;
 }
-export function getLoginSession(state) {
-   return state?.loginSession;
+export function getloginLocal(state) {
+   return state?.loginLocal;
 }
 
 export function getToken(state) {
    return getLogin(state).token;
 }
 
-export function getTokenSession(state) {
-   return getLoginSession(state).token;
+export function getTokenLocal(state) {
+   return getloginLocal(state).token;
 }
 
 export function getProfile(state) {
    return state?.profile;
-}
-
-export function getIsAuthenticated(state) {
-   return getProfile(state)?.isAuthenticated;
 }
 
 export function getUser(state) {
@@ -30,6 +26,6 @@ export function getUser(state) {
 export const returnToken = () => {
    const token = useSelector(getToken)
       ? useSelector(getToken)
-      : useSelector(getTokenSession);
+      : useSelector(getTokenLocal);
    return token;
 };
